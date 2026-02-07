@@ -2,9 +2,21 @@ import { createContext, useContext, useState, useCallback, type ReactNode } from
 import type { User } from "./types";
 import { DEMO_USERS } from "./mockData";
 
+const USERS_KEY = "helpdesk_users";
+
+function getStoredUsers(): User[] {
+  const stored = localStorage.getItem(USERS_KEY);
+  return stored ? JSON.parse(stored) : [...DEMO_USERS];
+}
+
+function saveUsers(users: User[]) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
 interface AuthContextType {
   user: User | null;
   login: (username: string, password: string) => string | null;
+  signup: (username: string, password: string, name: string) => string | null;
   logout: () => void;
 }
 
@@ -17,12 +29,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const login = useCallback((username: string, password: string): string | null => {
-    const found = DEMO_USERS.find(
+    const users = getStoredUsers();
+    const found = users.find(
       (u) => u.username === username && u.password === password
     );
-    if (!found) return "Invalid credentials. Try student/student123 or admin/admin123";
+    if (!found) return "Invalid credentials";
     setUser(found);
     localStorage.setItem("helpdesk_user", JSON.stringify(found));
+    return null;
+  }, []);
+
+  const signup = useCallback((username: string, password: string, name: string): string | null => {
+    if (username.length < 3) return "Username must be at least 3 characters";
+    if (password.length < 6) return "Password must be at least 6 characters";
+    if (!name.trim()) return "Name is required";
+    const users = getStoredUsers();
+    if (users.find((u) => u.username === username)) return "Username already taken";
+    const newUser: User = { username, password, role: "student", name: name.trim() };
+    users.push(newUser);
+    saveUsers(users);
+    setUser(newUser);
+    localStorage.setItem("helpdesk_user", JSON.stringify(newUser));
     return null;
   }, []);
 
@@ -32,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );
