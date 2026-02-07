@@ -21,19 +21,19 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const sidebarContent = (
     <>
       <div className="p-4 flex items-center gap-3 border-b border-sidebar-border">
-        <div className="w-9 h-9 rounded-full bg-sidebar-primary flex items-center justify-center">
-          <GraduationCap className="w-5 h-5 text-sidebar-primary-foreground" />
+        <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center shadow-md">
+          <GraduationCap className="w-5 h-5 text-white" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-sm font-sans">UniBot Admin</p>
-          <p className="text-xs text-sidebar-foreground/60 truncate">{user?.name}</p>
+          <p className="font-bold text-sm tracking-tight">UniBot Admin</p>
+          <p className="text-xs text-sidebar-foreground/50 truncate">{user?.name}</p>
         </div>
         <Button variant="ghost" size="icon" onClick={() => setMobileOpen(false)} className="md:hidden text-sidebar-foreground h-8 w-8">
           <X className="w-4 h-4" />
         </Button>
       </div>
 
-      <nav className="flex-1 p-3 space-y-1">
+      <nav className="flex-1 p-3 space-y-0.5">
         {links.map((link) => (
           <NavLink
             key={link.to}
@@ -41,10 +41,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             end={link.to === "/admin"}
             onClick={() => setMobileOpen(false)}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+              `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 ${
                 isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                  ? "bg-sidebar-accent text-sidebar-foreground font-medium border border-indigo-500/30"
+                  : "text-sidebar-foreground/60 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
               }`
             }
           >
@@ -56,7 +56,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
       <div className="p-3 border-t border-sidebar-border">
         <Button variant="ghost" onClick={handleLogout}
-          className="w-full justify-start text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50">
+          className="w-full justify-start text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-xl">
           <LogOut className="w-4 h-4 mr-2" />
           Sign Out
         </Button>
@@ -67,12 +67,14 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex h-[100dvh] bg-background">
       {/* Mobile header */}
-      <div className="fixed top-0 left-0 right-0 z-30 md:hidden bg-sidebar text-sidebar-foreground flex items-center gap-3 px-4 py-3">
+      <div className="fixed top-0 left-0 right-0 z-30 md:hidden bg-sidebar text-sidebar-foreground flex items-center gap-3 px-4 py-3 shadow-md">
         <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)} className="text-sidebar-foreground h-8 w-8">
           <Menu className="w-5 h-5" />
         </Button>
-        <GraduationCap className="w-5 h-5 text-sidebar-primary" />
-        <span className="font-bold text-sm">UniBot Admin</span>
+        <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center">
+          <GraduationCap className="w-3.5 h-3.5 text-white" />
+        </div>
+        <span className="font-bold text-sm tracking-tight">UniBot Admin</span>
       </div>
 
       {/* Mobile overlay sidebar */}

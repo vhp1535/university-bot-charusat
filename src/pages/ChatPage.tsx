@@ -76,34 +76,34 @@ const ChatPage = () => {
 
       <div className="flex flex-col flex-1 min-w-0">
         {/* Header */}
-        <header className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 bg-primary text-primary-foreground shadow-md">
+        <header className="flex items-center justify-between px-3 sm:px-5 py-2.5 sm:py-3 bg-indigo-700 text-white shadow-md">
           <div className="flex items-center gap-2 sm:gap-3">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-md hover:bg-primary-foreground/10 transition-colors" title="Toggle history">
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors" title="Toggle history">
               <Menu className="w-5 h-5" />
             </button>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-accent flex items-center justify-center">
-              <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-accent-foreground" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/15 flex items-center justify-center backdrop-blur-sm">
+              <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div className="hidden xs:block">
-              <h1 className="text-base sm:text-lg font-bold font-sans">UniBot</h1>
-              <p className="text-[10px] sm:text-xs opacity-75">AI University Helpdesk</p>
+              <h1 className="text-base sm:text-lg font-bold tracking-tight">UniBot</h1>
+              <p className="text-[10px] sm:text-xs text-white/60">AI University Helpdesk</p>
             </div>
           </div>
           <div className="flex items-center gap-0.5 sm:gap-1">
             {isSpeechSupported() && (
               <Button variant="ghost" size="sm" onClick={() => { if (voiceEnabled) speechSynthesis.cancel(); setVoiceEnabled(!voiceEnabled); }}
-                className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 h-8 w-8 sm:h-9 sm:w-auto sm:px-3 p-0"
+                className="text-white/70 hover:text-white hover:bg-white/10 h-8 w-8 sm:h-9 sm:w-auto sm:px-3 p-0"
                 title={voiceEnabled ? "Mute voice" : "Enable voice"}>
                 {voiceEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </Button>
             )}
             <Link to="/tickets">
-              <Button variant="ghost" size="sm" className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 h-8 sm:h-9 px-2 sm:px-3">
+              <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/10 h-8 sm:h-9 px-2 sm:px-3">
                 <Ticket className="w-4 h-4 sm:mr-1" />
                 <span className="hidden sm:inline">My Tickets</span>
               </Button>
             </Link>
-            <Button variant="ghost" size="sm" onClick={handleLogout} className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 h-8 w-8 sm:h-9 sm:w-9 p-0">
+            <Button variant="ghost" size="sm" onClick={handleLogout} className="text-white/70 hover:text-white hover:bg-white/10 h-8 w-8 sm:h-9 sm:w-9 p-0">
               <LogOut className="w-4 h-4" />
             </Button>
           </div>
@@ -114,15 +114,15 @@ const ChatPage = () => {
           {messages.map((msg) => (
             <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`} style={{ animation: "fadeInUp 0.3s ease-out" }}>
               <div className={`flex gap-2 max-w-[90%] sm:max-w-[80%] ${msg.sender === "user" ? "flex-row-reverse" : ""}`}>
-                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.sender === "user" ? "bg-accent" : "bg-primary"}`}>
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${msg.sender === "user" ? "bg-indigo-600" : "bg-slate-800"}`}>
                   {msg.sender === "user" ? (
-                    <span className="text-[10px] sm:text-xs font-bold text-accent-foreground">{user?.name[0]}</span>
+                    <span className="text-[10px] sm:text-xs font-bold text-white">{user?.name[0]}</span>
                   ) : (
-                    <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-foreground" />
+                    <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
                   )}
                 </div>
-                <div className={`rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 text-sm ${
-                  msg.sender === "user" ? "bg-chat-user text-chat-user-foreground rounded-tr-md" : "bg-chat-bot text-chat-bot-foreground rounded-tl-md"
+                <div className={`rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 text-sm shadow-sm ${
+                  msg.sender === "user" ? "bg-indigo-600 text-white rounded-tr-md" : "bg-card text-card-foreground border border-border/50 rounded-tl-md"
                 }`}>
                   <div className="prose prose-sm max-w-none [&>p]:m-0">
                     <ReactMarkdown>{msg.text}</ReactMarkdown>
@@ -137,10 +137,10 @@ const ChatPage = () => {
           {isTyping && (
             <div className="flex justify-start" style={{ animation: "fadeInUp 0.3s ease-out" }}>
               <div className="flex gap-2">
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary flex items-center justify-center">
-                  <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-foreground" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-slate-800 flex items-center justify-center">
+                  <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
                 </div>
-                <div className="bg-chat-bot rounded-2xl rounded-tl-md px-4 py-3 flex gap-1">
+                <div className="bg-card border border-border/50 rounded-2xl rounded-tl-md px-4 py-3 flex gap-1 shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-muted-foreground typing-dot" />
                   <span className="w-2 h-2 rounded-full bg-muted-foreground typing-dot" />
                   <span className="w-2 h-2 rounded-full bg-muted-foreground typing-dot" />
@@ -152,21 +152,21 @@ const ChatPage = () => {
         </div>
 
         {/* Input */}
-        <div className="p-3 sm:p-4 border-t bg-card">
+        <div className="p-3 sm:p-4 border-t bg-card/80 backdrop-blur-sm">
           <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="flex gap-1.5 sm:gap-2 max-w-3xl mx-auto">
             {isSpeechSupported() && (
               <Button type="button" onClick={isListening ? stopListening : startListening}
                 variant={isListening ? "destructive" : "outline"} size="icon"
-                className={`h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 ${isListening ? "animate-pulse" : ""}`}
+                className={`h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 rounded-xl ${isListening ? "animate-pulse" : ""}`}
                 title={isListening ? "Stop recording" : "Voice input"}>
                 {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
               </Button>
             )}
             <Input value={input} onChange={(e) => setInput(e.target.value)}
               placeholder={isListening ? "Listening…" : "Ask about fees, exams..."}
-              className="flex-1 h-9 sm:h-10 text-sm" disabled={isTyping} />
+              className="flex-1 h-9 sm:h-10 text-sm rounded-xl" disabled={isTyping} />
             <Button type="submit" disabled={!input.trim() || isTyping}
-              className="bg-accent text-accent-foreground hover:bg-accent/90 h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0" size="icon">
+              className="bg-indigo-600 hover:bg-indigo-500 text-white h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 rounded-xl shadow-md" size="icon">
               <Send className="w-4 h-4" />
             </Button>
           </form>
