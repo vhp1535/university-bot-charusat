@@ -21,7 +21,7 @@ const ChatPage = () => {
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { isListening, transcript, startListening, stopListening } = useSpeechRecognition();
+  const { isListening, transcript, detectedLang, startListening, stopListening } = useSpeechRecognition();
 
   useEffect(() => {
     if (!user || user.role !== "student") {
@@ -75,9 +75,9 @@ const ChatPage = () => {
         saveTicket(response.ticket);
       }
 
-      // Speak bot response if voice is enabled
+      // Speak bot response if voice is enabled (match language of user input)
       if (voiceEnabled) {
-        speakText(response.message.text);
+        speakText(response.message.text, detectedLang);
       }
 
       const conv: Conversation = {
