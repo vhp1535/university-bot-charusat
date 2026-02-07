@@ -36,7 +36,7 @@ const ChatPage = () => {
       {
         id: crypto.randomUUID(),
         sender: "bot",
-        text: `Welcome, user! 👋 I'm **UniBot**, your AI university assistant. Ask me about fees, exams, timetables, scholarships, and more!`,
+        text: `Welcome, ${user!.name}! 👋 I'm **UniBot**, your AI university assistant. Ask me about fees, exams, timetables, scholarships, and more!`,
         timestamp: Date.now(),
       },
     ]);
