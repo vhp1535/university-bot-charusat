@@ -1,73 +1,157 @@
-# Welcome to your Lovable project
+# Notebook LLM - 3D Animated PDF Summarizer
 
-## Project info
+A beautiful React frontend application that transforms PDFs into interactive conversations using AI-powered summaries and intelligent Q&A features. Built with React Three Fiber for stunning 3D effects and Framer Motion for smooth animations.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## ✨ Features
 
-## How can I edit this code?
+- **Beautiful 3D Interface**: Interactive 3D blob animations with mouse tracking
+- **Glass Morphism Design**: Modern glass-card UI with backdrop blur effects
+- **PDF Upload & Analysis**: Drag & drop PDF files for AI-powered summarization
+- **Interactive Q&A**: Ask questions about your documents and get intelligent answers
+- **Three Theme Modes**: Light, Dark, and Experimental themes with localStorage persistence
+- **Responsive Design**: Mobile-first design that adapts to all screen sizes
+- **Accessibility**: Keyboard navigation, ARIA labels, and respects `prefers-reduced-motion`
+- **Performance Optimized**: Pauses heavy animations on mobile and when tab is hidden
 
-There are several ways of editing your application.
+## 🚀 Quick Start
 
-**Use Lovable**
+### Prerequisites
+- Node.js 16+ and npm
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### Installation & Setup
+```bash
+# Install dependencies
+npm install
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
+
+# Build for production
+npm run build
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🎨 Customizing Themes
 
-**Use GitHub Codespaces**
+### Design System Tokens
+All visual styling is controlled through CSS custom properties in `src/index.css`:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```css
+:root {
+  /* Brand Colors (HSL only) */
+  --gradient-primary: linear-gradient(135deg, hsl(264 100% 60%), hsl(285 85% 60%), hsl(345 100% 68%), hsl(25 100% 60%));
+  --glass-bg: hsl(0 0% 100% / 0.1);
+  --blob-primary: hsl(264 100% 60%);
+  /* ... */
+}
+```
 
-## What technologies are used for this project?
+### Theme Modes
+- **Light**: Clean pastels with soft shadows
+- **Dark**: Deep navy (#0B0D17) with vibrant gradients  
+- **Experimental**: Neon outlines and condensed layout
 
-This project is built with:
+## 🎮 3D Elements
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### React Three Fiber Setup
+The app uses `@react-three/fiber` and `@react-three/drei` for 3D effects:
 
-## How can I deploy this project?
+- **Primary Element**: Animated blob with gradient material
+- **Mouse Interaction**: Subtle rotation follows cursor movement
+- **Fallback**: CSS 3D layered cards when `prefers-reduced-motion` is enabled
+- **Performance**: Low-poly geometry with optimized materials
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### Customizing 3D Assets
+To replace the procedural blob with a custom model:
 
-## Can I connect a custom domain to my Lovable project?
+1. Place `.glb` file in `public/models/`
+2. Update `src/components/Floating3D.tsx`:
+```tsx
+import { useGLTF } from '@react-three/drei';
+// Replace <Sphere> with <primitive object={gltf.scene} />
+```
 
-Yes, you can!
+## 📱 Mock API
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+The app includes a fully functional client-side mock API (`src/mockApi.ts`):
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### API Contract
+```typescript
+// Parse PDF file
+mockApi.parse(file: File) → Promise<{
+  id: string;
+  fileName: string; 
+  pages: number;
+  summary: string;
+}>
+
+// Ask question about document
+mockApi.ask(question: string, documentId: string) → Promise<{
+  question: string;
+  answer: string;
+  sourceSnippet: string;
+}>
+```
+
+### Extending the Mock API
+To add real backend integration, replace the mock implementations in `mockApi.ts` with actual API calls to your backend service.
+
+## 🎯 Performance Considerations
+
+- **3D Rendering**: Automatically pauses when `document.hidden` is true
+- **Reduced Motion**: Respects user preference and shows CSS fallbacks
+- **Mobile Optimization**: Simplified animations on smaller screens
+- **Lazy Loading**: Components are code-split for optimal loading
+
+## 🛠 Tech Stack
+
+- **Frontend**: React 18 + TypeScript + Vite
+- **3D Graphics**: React Three Fiber + Three.js + @react-three/drei
+- **Animations**: Framer Motion
+- **Styling**: Tailwind CSS + CSS Custom Properties
+- **UI Components**: Shadcn/ui components
+- **File Handling**: react-dropzone
+
+## 📦 Project Structure
+
+```
+src/
+├── components/
+│   ├── Floating3D.tsx      # 3D blob component
+│   ├── Navbar.tsx          # Navigation with theme toggle
+│   ├── ThemeProvider.tsx   # Theme management & persistence
+│   ├── UploadPanel.tsx     # PDF drag & drop interface
+│   ├── SummaryPanel.tsx    # AI summary display
+│   └── QuestionPanel.tsx   # Q&A interface
+├── mockApi.ts              # Client-side API simulation
+├── index.css               # Design system tokens
+└── pages/Index.tsx         # Main application page
+```
+
+## 🎨 Design Philosophy
+
+This application follows a **design-first approach** where all styling is centralized in the design system (`index.css` and `tailwind.config.ts`). Components never use ad-hoc styling - everything uses semantic tokens for consistency and maintainability.
+
+## 🐛 Troubleshooting
+
+### 3D Elements Not Appearing
+- Check browser WebGL support
+- Ensure graphics drivers are updated
+- Fallback CSS elements will show for unsupported browsers
+
+### Performance Issues
+- Disable 3D effects in browser dev tools: `prefers-reduced-motion: reduce`
+- Check console for WebGL context warnings
+
+### Theme Not Persisting
+- Ensure localStorage is enabled in browser
+- Check browser dev tools → Application → Local Storage
+
+## 📄 License
+
+This project is for demonstration purposes. Customize freely for your own projects.
+
+---
+
+**Built with ❤️ using React, Three.js, and modern web technologies**
